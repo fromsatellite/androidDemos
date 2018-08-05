@@ -18,6 +18,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".SendMsgActivity"></activity>
+
+        <receiver android:name=".MyAppWidgetProvider">
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_provider_info" />
+            <intent-filter>
+                <!--自定义的action用于响应点击AppWidget-->
+                <action android:name="com.satellite.remoteviews" />
+                <!--必须要显示声明的action！因为所有的widget的广播都是通过它来发送的；要接收widget的添加、删除等广播，就必须包含它-->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

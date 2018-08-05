@@ -49,13 +49,45 @@ public class FirstActivity extends Activity {
     }
 
     private void updateUI(RemoteViews remoteViews) {
-        View apply = remoteViews.apply(this, remote_views_content);
-        remote_views_content.addView(apply);
+        // 同应用处理方法
+//        View apply = remoteViews.apply(this, remote_views_content);
+//        remote_views_content.addView(apply);
+
+        // 跨应用处理方法
+        // 假如RemoteViews跨应用显示,那么就不能通过id来加载layout了，需要根据名称来加载布局
+        // 注意：第三个参数：包名，一定要写RemoteViews来源的应用包名
+        int layoutId = getResources().getIdentifier("layout_simulated_notification",
+                "layout", getPackageName());
+        View view = getLayoutInflater().inflate(layoutId, remote_views_content, false);
+        // reapply方法不需要加载layout
+        remoteViews.reapply(this, view);
+
+        remote_views_content.addView(view);
     }
 
     @Override
     protected void onDestroy() {
         unregisterReceiver(remoteViewsReceiver);
         super.onDestroy();
+    }
+
+    private void test(){
+//        Notification notification = new Notification();
+//        notification.icon = R.mipmap.ic_launcher;
+//        notification.tickerText = "hello notification";
+//        notification.when = System.currentTimeMillis();
+//        notification.flags = Notification.FLAG_AUTO_CANCEL;
+//        Intent intent = new Intent(this, RemoteViewsActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification);//RemoveViews所加载的布局文件
+//        remoteViews.setTextViewText(R.id.tv, "这是一个Test");//设置文本内容
+//        remoteViews.setTextColor(R.id.tv, Color.parseColor("#abcdef"));//设置文本颜色
+//        remoteViews.setImageViewResource(R.id.iv, R.mipmap.ic_launcher);//设置图片
+//        PendingIntent openActivity2Pending = PendingIntent.getActivity (this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);//设置RemoveViews点击后启动界面
+//        remoteViews.setOnClickPendingIntent(R.id.tv, openActivity2Pending);
+//        notification.contentView = remoteViews;
+//        notification.contentIntent = pendingIntent;
+//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        manager.notify(2, notification);
     }
 }
