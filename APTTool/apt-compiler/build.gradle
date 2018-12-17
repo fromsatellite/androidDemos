@@ -1,0 +1,17 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':apttool-annotations')
+    // javapoet是square公司出的一个帮助我们非常方便生成java代码文件的第三方库，避免我们手动拼接字符串的麻烦
+    implementation 'com.squareup:javapoet:1.7.0'
+    // auto-service是google公司出的第三方库，主要用于注解处理器，可以自动帮我们生成META-INF 配置信息。
+    implementation 'com.google.auto.service:auto-service:1.0-rc2'
+}
+
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
